@@ -18,10 +18,10 @@
 	</SignedOut>
 
 	<SignedIn let:user let:signOut>
-		<div in:fade class="max-w-screen-lg m-auto">
+		<div in:fade class="max-w-screen-md m-auto min-h-screen flex flex-col bg-neutral-900" data-vaul-drawer-wrapper>
 			<Header {user} {signOut} />
-			<div class="px-5 pt-10">
-				<slot {firestore}/>
+			<div class="px-5 pt-10 flex-grow flex flex-col">
+				<slot />
 			</div>
 		</div>
 	</SignedIn>
@@ -30,8 +30,10 @@
 <style lang="postcss">
 	:global(body) {
 		@apply bg-neutral-50 text-neutral-900 dark:bg-neutral-900 dark:text-gray-200 min-h-screen;
+		padding-right: 0px !important;
 	}
 	:global(html) {
-		@apply min-h-screen
+		@apply min-h-screen overflow-x-hidden;
+		scrollbar-gutter: stable;
 	}
 </style>

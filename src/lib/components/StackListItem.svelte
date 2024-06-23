@@ -10,7 +10,7 @@
 <li class="h-40 flex flex-col p-4 border-2 border-neutral-700 rounded-sm">
 	<div class="flex-grow"></div>
 	<div class="flex gap-2 items-center">
-		<div class="font-medium flex-grow">{name}</div>
+		<a class="font-medium flex-grow" href="/{id}/study">{name}</a>
 		<div class="flex items-center gap-2">
 			<StackListItemAction href="/{id}/edit" tooltip="Edit cards"><PencilAltLine /></StackListItemAction>
 			<StackListItemAction href="/{id}/study" tooltip="Study"

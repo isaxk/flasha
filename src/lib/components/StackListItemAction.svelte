@@ -10,7 +10,7 @@
 		<Tooltip.Trigger>
 			<slot />
 		</Tooltip.Trigger>
-		<Tooltip.Content side="bottom" class="bg-neutral-900 py-2 px-4 rounded-sm border-2 border-neutral-800" sideOffset={8} transition={flyAndScale}>
+		<Tooltip.Content side="bottom" class="bg-neutral-900 py-2 px-4 rounded-sm border-2 border-neutral-800 drop-shadow" sideOffset={8} transition={flyAndScale}>
 			{tooltip}
 			<Tooltip.Arrow class="border-t-2 border-l-2 mb-0.5 border-neutral-800"/>
 		</Tooltip.Content>

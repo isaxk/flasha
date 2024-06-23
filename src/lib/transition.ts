@@ -1,5 +1,5 @@
 import { cubicOut } from "svelte/easing";
-import type { TransitionConfig } from "svelte/transition";
+import { fly, type TransitionConfig } from "svelte/transition";
 
 type FlyAndScaleParams = {
 	y?: number;

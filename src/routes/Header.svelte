@@ -13,7 +13,7 @@
 <div class="sticky">
 	<div class="max-w-screen-lg m-auto h-full p-5 flex items-center">
 		<div class="flex-grow">
-			<div class="text-2xl font-bold">Flasha</div>
+			<a href="/" class="text-2xl font-bold">Flasha</a>
 		</div>
 		<div class="flex items-center gap-2">
 			<DropdownMenu.Root>
@@ -26,10 +26,11 @@
 				>
 
 				<DropdownMenu.Content
-					class="bg-neutral-900 border-2 text-right border-neutral-800 w-max p-2 rounded-sm flex flex-col px-5 gap-4 py-3"
+					class="bg-neutral-900 border-2 text-right border-neutral-800 p-2 rounded-sm flex flex-col px-5 gap-4 py-3 drop-shadow-md"
 					side="bottom"
 					align="end"
-					sideOffset={5}
+					sideOffset={8}
+					alignOffset={0}
 					transition={flyAndScale}
 				>
 					<DropdownMenu.Item class="pb-2">
