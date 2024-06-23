@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { cardColors } from "$lib/data/cardcolors";
 	import { flyAndScale } from "$lib/transition";
+	import { AspectRatio } from "bits-ui";
 	import { fly, scale, slide } from "svelte/transition";
 
 	export let front: string;
@@ -14,7 +15,7 @@
 <div
 out:fly={{x:-500, duration: 500}}
 in:scale={{start: 0.7, opacity: 0, duration: 500, delay: 100}}
-	class="absolute top-0 left-0 w-full h-full flex-grow flex items-center justify-center text-2xl text-zinc-800 bg-neutral-800"
+	class="absolute top-0 left-0 w-full h-full flex-grow flex items-center justify-center text-2xl text-zinc-800 bg-neutral-800 rounded-sm"
 	style:background-color={cardColors[color]}
 >
 	<div class="absolute top-0 left-0 px-4 py-2 text-neutral-600 text-[15px]">{i+1}/{total}</div>

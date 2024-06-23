@@ -8,7 +8,7 @@
 	export let saving: boolean = false;
 </script>
 
-<div class="flex items-center gap-1">
+<div class="flex items-center gap-1 pr-2">
 	<div class="flex-grow">
 		<div class="text-xl">
 			<span class="font-light"

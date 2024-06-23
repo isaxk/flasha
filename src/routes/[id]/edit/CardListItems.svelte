@@ -5,8 +5,9 @@
 	import { DropdownMenu, RadioGroup } from "bits-ui";
 	import { createEventDispatcher } from "svelte";
 	import { writable } from "svelte/store";
-	import { fade } from "svelte/transition";
+	import { fade, slide } from "svelte/transition";
 	import CheckLine from "virtual:icons/majesticons/check-line";
+	import { quintIn, quintInOut, quintOut } from "svelte/easing";
 
 	export let front: string;
 	export let back: string;
@@ -27,9 +28,10 @@
 </script>
 
 <div
-	class="flex items-center px-3 border-2 border-neutral-600 gap-3 rounded-sm"
+	class="flex items-center px-3 border-2 border-neutral-700 gap-5 h-20 rounded-sm"
+	in:slide={{easing: quintOut, duration: 500}}
 >
-	<div class="w-3">{i + 1}.</div>
+	<div class="w-8 text-center">{i + 1}.</div>
 	<DropdownMenu.Root closeOnItemClick={false}>
 		<DropdownMenu.Trigger>
 			<div
@@ -67,7 +69,7 @@
 			</DropdownMenu.RadioGroup>
 		</DropdownMenu.Content>
 	</DropdownMenu.Root>
-	<div class="flex flex-col w-full py-1 text-neutral-300">
+	<div class="flex flex-col w-full py-1 text-neutral-300 gap-2">
 		<input
 			class="text-lg bg-transparent p-0.5 pb-0 w-full outline-none focus:text-neutral-200 transition-colors"
 			bind:value={$data.front}

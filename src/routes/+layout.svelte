@@ -18,7 +18,7 @@
 	</SignedOut>
 
 	<SignedIn let:user let:signOut>
-		<div in:fade class="max-w-screen-md m-auto min-h-screen flex flex-col bg-neutral-900" data-vaul-drawer-wrapper>
+		<div in:fade class="max-w-screen-lg m-auto min-h-screen flex flex-col bg-neutral-900" data-vaul-drawer-wrapper>
 			<Header {user} {signOut} />
 			<div class="px-5 pt-10 flex-grow flex flex-col">
 				<slot />
@@ -33,7 +33,7 @@
 		padding-right: 0px !important;
 	}
 	:global(html) {
-		@apply min-h-screen overflow-x-hidden;
+		@apply min-h-screen overflow-x-hidden scroll-smooth;
 		scrollbar-gutter: stable;
 	}
 </style>
