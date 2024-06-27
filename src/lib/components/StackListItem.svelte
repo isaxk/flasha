@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { goto } from "$app/navigation";
+
 	export let name: string;
     export let id: string;
 </script>
@@ -7,8 +9,9 @@
 	<div class="absolute pointer-events-none -z-10 -top-1 left-0 h-32 w-full flex justify-center">
 		<div class="h-32 w-[90%] bg-neutral-200 rounded-[4px] transition-all drop-shadow-xl"></div>
 	</div>
-	<div
-		class="absolute z-0 pointer-events-none card flex flex-col hover:cursor-pointer top-1 left-0 bg-white h-32 w-full rounded-[8px] drop-shadow transition-all"
+	<a
+		href="/{id}/study"
+		class="absolute z-0 card flex flex-col hover:cursor-pointer top-1 left-0 bg-white h-32 w-full rounded-[8px] drop-shadow transition-all"
 	>
 		<div class="flex-grow flex items-center justify-center">
 			<div class="font-medium">
@@ -16,7 +19,7 @@
 			</div>
 		</div>
 		
-	</div>
+	</a>
     <div
 			class="absolute -z-10 top-20 pt-0.5 flex justify-center w-full pb-0 options h-10 transition-all hover:-bottom-8"
 		>
