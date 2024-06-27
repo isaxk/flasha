@@ -3,6 +3,7 @@ import { getAuth } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
 import { addDoc, collection, deleteDoc, doc, getFirestore, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
 import { cardColors } from "./cardColors";
+import type { User } from "sveltefire";
 
 export const app = initializeApp({
     apiKey: "AIzaSyCXmPGcPYEtbgZChLvme1YHzePXtaPyKNI",
@@ -46,4 +47,13 @@ export async function updateStack(stackId:string, data:any) {
     await updateDoc(stackRef, data);
 }
 
+export async function createStack() {
+    const stacksRef = collection(firestore, "stacks");
+    const newStack = await addDoc(stacksRef, {
+        name: "New Stack",
+        uid: auth.currentUser?.uid
+    });
+    await createCard(newStack.id);
+    return newStack.id;
+}
     
