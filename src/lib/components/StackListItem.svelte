@@ -10,7 +10,10 @@
 		<div class="h-32 w-[90%] bg-neutral-200 rounded-[4px] transition-all drop-shadow-xl"></div>
 	</div>
 	<a
-		href="/{id}/study"
+		tabindex="0"
+		href="#"
+		role="button"
+		on:dblclick={()=>goto(`/${id}/study`)}
 		class="absolute z-0 card flex flex-col hover:cursor-pointer top-1 left-0 bg-white h-32 w-full rounded-[8px] drop-shadow transition-all"
 	>
 		<div class="flex-grow flex items-center justify-center">
