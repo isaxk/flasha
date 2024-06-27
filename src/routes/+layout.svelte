@@ -1,39 +1,57 @@
 <script lang="ts">
 	import "../app.css";
-	import Header from "./Header.svelte";
 
-	import { initializeApp } from "firebase/app";
-	import { getAuth } from "firebase/auth";
-	import { getFirestore } from "firebase/firestore";
 	import { FirebaseApp, SignedIn, SignedOut } from "sveltefire";
-	import Landing from "./Landing.svelte";
-	import { fade, slide } from "svelte/transition";
-	import {firestore, auth} from "$lib/firebase";
-	
+	import { initializeApp } from "firebase/app";
+	import { getFirestore } from "firebase/firestore";
+	import {
+		getAuth,
+		GoogleAuthProvider,
+		signInWithPopup,
+		signOut,
+	} from "firebase/auth";
+	import Landing from "./landing.svelte";
+	import Header from "./header.svelte";
+	import { auth, firestore, provider } from "$lib/firebase";
+	import { fade } from "svelte/transition";
+	import { goto } from "$app/navigation";
+
+	export let data;
+
+	function signIn() {
+		signInWithPopup(auth, provider);
+		goto("/");
+	}
 </script>
 
 <FirebaseApp {auth} {firestore}>
-	<SignedOut let:auth>
-		<Landing {auth} />
-	</SignedOut>
+	<div class="max-w-screen-md min-h-screen m-auto px-4 flex flex-col">
+		<SignedOut let:auth>
+			<Landing {signIn} />
+		</SignedOut>
 
-	<SignedIn let:user let:signOut>
-		<div in:fade class="max-w-screen-lg m-auto min-h-screen flex flex-col bg-neutral-900" data-vaul-drawer-wrapper>
-			<Header {user} {signOut} />
-			<div class="px-5 pt-10 flex-grow flex flex-col">
-				<slot />
+		<SignedIn let:user let:signOut>
+			<div class="flex-grow flex flex-col" in:fade={{duration:150}}>
+				<Header {signOut} {user} />
+				{#key data.url}
+					<div
+						class="pt-10 pb-5 flex-grow flex flex-col"
+						in:fade={{ duration: 150, delay: 160 }}
+						out:fade={{ duration: 150 }}
+					>
+						<slot />
+					</div>
+				{/key}
 			</div>
-		</div>
-	</SignedIn>
+		</SignedIn>
+	</div>
 </FirebaseApp>
 
 <style lang="postcss">
 	:global(body) {
-		@apply bg-neutral-50 text-neutral-900 dark:bg-neutral-900 dark:text-gray-200 min-h-screen;
-		padding-right: 0px !important;
+		@apply bg-gray-50 text-neutral-800;
 	}
 	:global(html) {
-		@apply min-h-screen overflow-x-hidden scroll-smooth;
-		scrollbar-gutter: stable;
+		@apply scroll-smooth;
 	}
 </style>

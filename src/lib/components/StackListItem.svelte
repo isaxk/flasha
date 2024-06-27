@@ -1,21 +1,40 @@
 <script lang="ts">
-	import PlayCircleLine from "virtual:icons/majesticons/play-circle-line";
-	import PencilAltLine from "virtual:icons/majesticons/pencil-alt-line";
-	import StackListItemAction from "./StackListItemAction.svelte";
-
-    export let name: string;
+	export let name: string;
     export let id: string;
 </script>
 
-<li class="h-40 flex flex-col p-4 border-2 border-neutral-700 rounded-sm">
-	<div class="flex-grow"></div>
-	<div class="flex gap-2 items-center">
-		<a class="font-medium flex-grow" href="/{id}/study">{name}</a>
-		<div class="flex items-center gap-2">
-			<StackListItemAction href="/{id}/edit" tooltip="Edit cards"><PencilAltLine /></StackListItemAction>
-			<StackListItemAction href="/{id}/study" tooltip="Study"
-				><PlayCircleLine /></StackListItemAction
-			>
-		</div>
+<div class="relative w-full h-40 whole z-0">
+	<div class="absolute pointer-events-none -z-10 -top-1 left-0 h-32 w-full flex justify-center">
+		<div class="h-32 w-[90%] bg-neutral-200 rounded-[4px] transition-all drop-shadow-xl"></div>
 	</div>
-</li>
+	<div
+		class="absolute z-0 pointer-events-none card flex flex-col hover:cursor-pointer top-1 left-0 bg-white h-32 w-full rounded-[8px] drop-shadow transition-all"
+	>
+		<div class="flex-grow flex items-center justify-center">
+			<div class="font-medium">
+				{name}
+			</div>
+		</div>
+		
+	</div>
+    <div
+			class="absolute -z-10 top-20 pt-0.5 flex justify-center w-full pb-0 options h-10 transition-all hover:-bottom-8"
+		>
+			<div class="w-[95%] bg-blue-400 text-white flex justify-evenly items-center rounded-b-md">
+				<a href="/{id}/study">Study</a>
+				<a href="/{id}/edit">Edit</a>
+			</div>
+		</div>
+</div>
+
+<style lang="postcss">
+	.whole:hover .options {
+		@apply top-28 mt-2 drop-shadow-md;
+	}
+    .whole:hover .card {
+        @apply -top-1 drop-shadow-xl;
+    }
+    /* .card:hover + .options {
+        @apply -bottom-8 drop-shadow-md;
+    } */
+</style>

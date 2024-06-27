@@ -1,51 +1,77 @@
 <script lang="ts">
-	import { fade } from "svelte/transition";
-	import lodash from "lodash";
-	import { Doc } from "sveltefire";
-	import StackPageHeader from "../StackPageHeader.svelte";
-	import CardListItems from "./CardListItems.svelte";
-	import Plus from "virtual:icons/majesticons/plus";
-	import { newCard, updateCard } from "$lib/firebase";
+	import Button from "$lib/components/Button.svelte";
+	import CardListItem from "$lib/components/CardListItem.svelte";
+	import CirclePlay from "virtual:icons/lucide/circle-play";
+	import Plus from "virtual:icons/lucide/plus";
+	import { collectionStore, Doc, docStore } from "sveltefire";
+	import type { Cards, Stack } from "$lib/types.js";
+	import {
+		createCard,
+		deleteCard,
+		firestore,
+		updateCard,
+		updateStack,
+	} from "$lib/firebase";
+	import {
+		collection,
+		limit,
+		query,
+		orderBy,
+		Query,
+		type DocumentData,
+	} from "firebase/firestore";
+	import Titleinput from "./titleinput.svelte";
 
 	export let data;
 
-	let saving = false;
+	const cardsRef = collection(firestore, `/stacks/${data.id}/cards/`);
+	const cardsQ = query(cardsRef, orderBy("dateAdded"));
 
-	const handleUpdate = lodash.debounce(
-		async (stack: any, i: number, detail: any) => {
-			saving = true;
-			await updateCard(data.id, stack, i, detail);
-			window.setTimeout(() => {
-				saving = false;
-			}, 500);
-		},
-		1000,
-	);
+	const stack = docStore<Stack>(firestore, `stacks/${data.id}`);
+	const cards = collectionStore<Cards | DocumentData>(firestore, cardsQ);
 </script>
 
-<Doc ref={"stacks/" + data.id} let:data={stack}>
-	<div in:fade={{}} class="flex-grow flex flex-col gap-5 pb-5">
-		<StackPageHeader name={stack.name} type="edit" {saving} />
-		<div class="grid gap-4 pb-10">
-			{#each stack.cards as card, i (i)}
-				<CardListItems
-					{...card}
-					{i}
-					on:update={(e) => {
-						handleUpdate(stack, i, e.detail);
-					}}
-				/>
-			{/each}
-			<button
-				on:click={() => {
-					newCard(data.id, stack);
-					window.setTimeout(() => {
-						window.scrollTo(0, document.body.scrollHeight);
-					}, 100);
-				}}
-				class="flex items-center justify-center text-2xl px-3 border-2 text-neutral-600 border-neutral-800 hover:border-neutral-700
-				hover:bg-neutral-800 transition-colors gap-5 h-20 rounded-sm"><Plus /></button
-			>
+<svelte:head>
+	{#if $stack}
+		<title>{$stack.name} - Flasha</title>
+	{:else}
+		<title>Loading... - Flasha</title>
+	{/if}
+</svelte:head>
+
+{#if $stack && $cards}
+	<div class="pb-4 flex items-center gap-2">
+		<h1 class="text-3xl font-medium flex-grow">
+			<Titleinput
+				value={$stack.name}
+				on:change={(e) => updateStack(data.id, { name: e.detail })}
+			/>
+		</h1>
+		<div class="">
+			<Button href="study"><CirclePlay /></Button>
 		</div>
 	</div>
-</Doc>
+	<div class="flex flex-col gap-2">
+		{#each $cards as card, i (card.id)}
+			<CardListItem
+				color={card.color}
+				front={card.front}
+				back={card.back}
+				{i}
+				on:change={(e) => {
+					updateCard(data.id, card.id, {
+						...e.detail,
+					});
+				}}
+				on:delete={(e) => {
+					deleteCard(data.id, card.id);
+				}}
+			/>
+		{/each}
+		<button
+			on:click={() => createCard(data.id)}
+			class="py-4 drop-shadow bg-neutral-200 ml-12 rounded-md mt-4 flex items-center justify-center"
+			><Plus class="text-gray-400" /></button
+		>
+	</div>
+{/if}

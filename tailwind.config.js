@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Red Hat Display", "sans-serif"]
+        sans: ["DM Sans", "sans-serif"]
       }
     },
   },

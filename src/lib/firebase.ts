@@ -1,8 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { Firestore, addDoc, collection, getDoc, getFirestore, setDoc } from "firebase/firestore";
-import { doc, updateDoc } from "firebase/firestore";
-import { cardColors } from "./data/cardcolors";
+import { GoogleAuthProvider } from "firebase/auth";
+import { addDoc, collection, deleteDoc, doc, getFirestore, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
+import { cardColors } from "./cardColors";
 
 export const app = initializeApp({
     apiKey: "AIzaSyCXmPGcPYEtbgZChLvme1YHzePXtaPyKNI",
@@ -15,47 +15,35 @@ export const app = initializeApp({
 });
 export const firestore = getFirestore(app);
 export const auth = getAuth(app);
+export const provider = new GoogleAuthProvider();
 
+export async function updateCard(stackId:string, cardId: string, newCard: any) {
+    const cardRef = doc(firestore, `/stacks/${stackId}/cards/${cardId}`);
 
-function defaultCard() {
-    return {
+    await updateDoc(cardRef, newCard);
+}
+
+export async function deleteCard(stackId:string, cardId:string) {
+    const cardRef = doc(firestore, `/stacks/${stackId}/cards/${cardId}`);
+
+    await deleteDoc(cardRef);
+}
+
+export async function createCard(stackId:string) {
+    const stackRef = collection(firestore, `/stacks/${stackId}/cards/`);
+
+    await addDoc(stackRef, {
         front: "Front",
         back: "Back",
-        color: Math.floor(Math.random() * cardColors.length),
-    };
+        color: cardColors[Math.floor(Math.random() * cardColors.length)],
+        dateAdded: serverTimestamp()
+    })
 }
 
+export async function updateStack(stackId:string, data:any) {
+    const stackRef = doc(firestore, `/stacks/${stackId}`);
 
-export async function newCard(docId: string, data: any) {
-
-    const stackRef = doc(firestore, "stacks", docId);
-
-    await updateDoc(stackRef, {
-        cards: [...data.cards, defaultCard()]
-    });
+    await updateDoc(stackRef, data);
 }
 
-export async function updateCard(docId: string, data: any, cardIndex: number, newCard: any) {
-    const stackRef = doc(firestore, "stacks", docId);
-
-    data.cards[cardIndex] = newCard;
-
-    await updateDoc(stackRef, {
-        cards: data.cards
-    });
-}
-
-export async function newStack(uid: string) {
-
-    const stacksRef = collection(firestore, "stacks");
-
-    const stackRef = await addDoc(stacksRef, {
-        name: "New Stack",
-        uid,
-        cards: [
-            defaultCard()
-        ]
-    });
-
-    return stackRef.id;
-}
+    

@@ -1,111 +1,92 @@
 <script lang="ts">
-	import { flyAndScale } from "$lib/transition.js";
-	import { fade, fly, scale } from "svelte/transition";
+	import Button from "$lib/components/Button.svelte";
+	import { fade, scale } from "svelte/transition";
 	import { Doc } from "sveltefire";
-	import ChevronLeftLine from "virtual:icons/majesticons/chevron-left-line";
-	import ChevronRightLine from "virtual:icons/majesticons/chevron-right-line";
-	import Refresh from "virtual:icons/majesticons/refresh";
-	import PencilAltLine from "virtual:icons/majesticons/pencil-alt-line";
-	import ViewListLine from "virtual:icons/majesticons/view-list-line";
-	import Flashcard from "./Flashcard.svelte";
-	import { Confetti } from "svelte-confetti";
-	import { Drawer } from "vaul-svelte";
-	import StackPageHeader from "../StackPageHeader.svelte";
+	import ChevronLeft from "virtual:icons/lucide/chevron-left";
+	import ChevronRight from "virtual:icons/lucide/chevron-right";
+	import Eye from "virtual:icons/lucide/eye";
+	import Pencil from "virtual:icons/lucide/pencil-line";
+	import Flashcard from "./flashcard.svelte";
+	import { docStore, collectionStore } from "sveltefire";
+	import { firestore } from "$lib/firebase";
+	import type { Stack, Cards } from "$lib/types";
+	import _ from "lodash";
 
 	export let data;
 
-	let showBack = false;
+	let currentCard: number = 0;
+	let showBack: boolean = false;
 
-	let mode: "edit" | "study" = "study";
+	function flip() {
+		showBack = true;
+	}
+	function nextCard() {
+		showBack = false;
+		currentCard++;
+	}
+	function reset() {
+		currentCard = 0;
+	}
 
-	const flashcards = [
-		{
-			front: "Front 1",
-			back: "Back 1",
-		},
-		{
-			front: "Front 2",
-			back: "Back 2",
-		},
-	];
+	const stack = docStore<Stack>(firestore, `stacks/${data.id}`);
+	const cards = collectionStore<Cards>(firestore, `stacks/${data.id}/cards`);
 
-	let currentFlashcard = 0;
-	let cancelTransition = 0;
-	let innerWidth: number;
+	$: _.shuffle($cards);
 </script>
 
-<svelte:window bind:innerWidth />
 
-<Doc ref={"stacks/" + data.id} let:data>
-	<div in:fade={{}} class="flex-grow flex flex-col gap-5 pb-5">
-		<StackPageHeader name={data.name} type="study" />
-		<div class="relative flex-grow">
-			{#if currentFlashcard < data.cards.length}
-				{#key cancelTransition}
-					{#key currentFlashcard}
-						<Flashcard
-							{...data.cards[currentFlashcard]}
-							{showBack}
-							i={currentFlashcard}
-							total={data.cards.length}
-						/>
-					{/key}
-				{/key}
-			{:else}
+<svelte:head>
+	{#if $stack}
+		<title>{$stack.name} - Flasha</title>
+	{:else}
+		<title>Loading... - Flasha</title>
+	{/if}
+</svelte:head>
+
+{#if $stack && $cards}
+	<div class="pb-4 flex">
+		<h1 class="text-3xl font-medium flex-grow">{$stack.name}</h1>
+		<div class="">
+			<Button href="edit"><Pencil class="text-sm" /></Button>
+		</div>
+	</div>
+	<div class="relative flex-grow min-h-96">
+		{#if currentCard < $cards.length}
+			{#key currentCard}
+				<Flashcard {...$cards[currentCard]} {showBack} />
 				<div
-					class="text-2xl font-medium absolute top-0 left-0 w-full h-full flex justify-center items-center"
-					in:scale={{ start: 0.7, opacity: 0, duration: 500, delay: 100 }}
+					class="absolute top-0 left-0 py-2 px-3 text-gray-500"
+					in:fade={{ duration: 300 }}
+					out:fade={{ duration: 300 }}
 				>
-					<div class="flex items-center flex-col">
-						<Confetti fallDistance="50px" x={[-1, 1]} y={[0.1, 1]} />
-						<div class="">Stack Complete</div>
-					</div>
+					{currentCard + 1}/{$cards.length}
 				</div>
+			{/key}
+		{:else}
+			<div
+				in:scale={{ duration: 300, start: 0.8, delay: 100 }}
+				class="absolute top-0 left-0 w-full min-h-96 h-full flex items-center justify-center rounded-md bg-gray-50 drop-shadow"
+			>
+				<div class="text-xl text-center">Stack Complete</div>
+			</div>
+		{/if}
+	</div>
+
+	<div class="h-20 flex items-center">
+		<div class="">
+			{#if currentCard < $cards.length}
+				<Button style="secondary"><ChevronLeft class="-ml-2" /> Back</Button>
 			{/if}
 		</div>
-		<div class="py-0 flex justify-center items-center">
-			{#if currentFlashcard < data.cards.length && currentFlashcard > 0}
-				<button
-					on:click={() => {
-						if (currentFlashcard > 0) {
-							currentFlashcard += -1;
-							cancelTransition++;
-						}
-					}}
-					class="text-xl px-5 py-3 flex items-center gap-1 text-neutral-400"
-					><ChevronLeftLine /> Back</button
-				>
-			{/if}
-			<div class="flex-grow flex justify-center items-center"></div>
+		<div class="flex-grow"></div>
+		<div class="">
 			{#if showBack}
-				<button
-					class="text-xl px-5 py-3 flex items-center gap-1"
-					on:click={() => {
-						currentFlashcard++;
-						showBack = false;
-					}}
-				>
-					Next <ChevronRightLine /></button
-				>
-			{:else if currentFlashcard < data.cards.length}
-				<button
-					class="text-xl px-5 py-3 flex items-center gap-1"
-					on:click={() => {
-						showBack = true;
-					}}><Refresh /> Reveal</button
-				>
+				<Button on:click={nextCard}>Next <ChevronRight class="-mr-2" /></Button>
+			{:else if currentCard < $cards.length}
+				<Button on:click={flip}><Eye class="mr-1" /> Reveal</Button>
 			{:else}
-				<button
-					class="text-xl px-5 py-3 flex items-center gap-1"
-					on:click={() => {
-						currentFlashcard = 0;
-					}}><Refresh /> Study Again</button
-				>
+				<Button on:click={reset}>Study Again</Button>
 			{/if}
 		</div>
 	</div>
-
-	<p slot="loading" class="w-full h-96 mt-10 flex items-center justify-center">
-		Loading...
-	</p>
-</Doc>
+{/if}
