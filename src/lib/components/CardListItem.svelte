@@ -72,7 +72,8 @@
 			</DropdownMenu.RadioGroup>
 		</DropdownMenu.Content>
 	</DropdownMenu.Root>
-		<div class="font-medium flex-grow">
+	<div class="flex-grow grid sm:grid-cols-2 gap-0">
+		<div class="font-medium">
 			<input
 				type="text"
 				class="w-full p-1 font-medium"
@@ -80,7 +81,7 @@
 				on:change={handleChange}
 			/>
 		</div>
-		<div class="flex-grow">
+		<div class="">
 			<input
 				type="text"
 				class="w-full p-1"
@@ -88,6 +89,7 @@
 				on:change={handleChange}
 			/>
 		</div>
+	</div>
 		<button on:click={handleDelete}><Trash /></button>
 	</div>
 </div>
