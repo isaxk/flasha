@@ -6,6 +6,6 @@ export interface Stack {
 export interface Cards {
     front:string;
     back:string;
-    color:number;
+    color:string;
     id:string;
 }[];

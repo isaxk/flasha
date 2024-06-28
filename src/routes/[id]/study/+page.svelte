@@ -44,9 +44,9 @@
 </svelte:head>
 
 {#if $stack && $cards}
-	<div class="pb-4 flex">
-		<h1 class="text-3xl font-medium flex-grow">{$stack.name}</h1>
-		<div class="">
+	<div class="pb-4 flex items-center">
+		<h1 class="text-3xl font-medium flex-grow p-1">{$stack.name}</h1>
+		<div class="flex items-center">
 			<Button href="edit"><Pencil class="text-sm" /></Button>
 		</div>
 	</div>

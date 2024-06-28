@@ -4,6 +4,7 @@ import { GoogleAuthProvider } from "firebase/auth";
 import { addDoc, collection, deleteDoc, doc, getFirestore, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
 import { cardColors } from "./cardColors";
 import type { User } from "sveltefire";
+import { goto } from "$app/navigation";
 
 export const app = initializeApp({
     apiKey: "AIzaSyCXmPGcPYEtbgZChLvme1YHzePXtaPyKNI",
@@ -54,6 +55,14 @@ export async function createStack() {
         uid: auth.currentUser?.uid
     });
     await createCard(newStack.id);
-    return newStack.id;
+    goto(`/${newStack.id}/edit`);
 }
+
+export async function deleteStack(stackId:string) {
+    const stackRef = doc(firestore, `/stacks/${stackId}`);
     
+    goto("/");
+    await deleteDoc(stackRef);
+    
+    
+}
