@@ -16,7 +16,7 @@
 
 {#if isFocused}
 	<form
-		class="text-2xl flex-grow inset-0 -top-2 h-full absolute z-10 w-full flex items-center"
+		class="text-2xl flex-grow inset-0 bg-zinc-50 h-full absolute z-10 w-full flex items-center"
 		in:fly={{ x: -50 }}
 		out:fly={{ x: -50 }}
 		on:submit|preventDefault={() => (isFocused = false)}
