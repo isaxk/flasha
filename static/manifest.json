@@ -2,17 +2,22 @@
     "short_name": "Flasha",
     "name": "Flasha",
     "icons": [
-      {
-        "src": "/images/icons-vector.svg",
-        "type": "image/svg+xml",
-        "sizes": "512x512"
-      }
+        {
+            "src": "/icon512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        },
+        {
+            "src": "/icon912.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        }
     ],
     "id": "/?source=pwa",
     "start_url": "/?source=pwa",
-    "background_color": "#fff",
+    "background_color": "#ffffff",
     "display": "standalone",
     "scope": "/",
-    "theme_color": "#fff",
+    "theme_color": "#ffffff",
     "description": "Stunningly Simple Flashcards"
-  }
+}
