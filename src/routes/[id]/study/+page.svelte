@@ -31,9 +31,11 @@
 	const stack = docStore<Stack>(firestore, `stacks/${data.id}`);
 	const cards = collectionStore<Cards>(firestore, `stacks/${data.id}/cards`);
 
-	$: _.shuffle($cards);
+	let shuffledCards = _.shuffle($cards);
+	$: {
+		shuffledCards = _.shuffle($cards);
+	}
 </script>
-
 
 <svelte:head>
 	{#if $stack}
@@ -43,7 +45,7 @@
 	{/if}
 </svelte:head>
 
-{#if $stack && $cards}
+{#if $stack && shuffledCards}
 	<div class="pb-4 flex items-center">
 		<h1 class="text-3xl font-medium flex-grow p-1">{$stack.name}</h1>
 		<div class="flex items-center">
@@ -53,7 +55,7 @@
 	<div class="relative flex-grow min-h-96">
 		{#if currentCard < $cards.length}
 			{#key currentCard}
-				<Flashcard {...$cards[currentCard]} {showBack} />
+				<Flashcard {...shuffledCards[currentCard]} {showBack} />
 				<div
 					class="absolute top-0 left-0 py-2 px-3 text-gray-500"
 					in:fade={{ duration: 300 }}
