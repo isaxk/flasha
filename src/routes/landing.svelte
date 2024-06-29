@@ -12,7 +12,6 @@
 			<li>Free</li>
 			<li>Open Source</li>
 			<li>Automatic Sync</li>
-			<li>Collaborative</li>
 		</ul>
 		<div class="flex justify-center"><Button on:click={()=>signIn()}>Sign In with Google</Button></div>
 	</div>
