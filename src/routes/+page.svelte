@@ -30,7 +30,7 @@
 	<Collection ref={q} let:data={stacks}>
 		{#key stacks}
 			<div
-				class="grid grid-cols-2 md:grid-cols-3 gap-3"
+				class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3"
 				in:fade={{ duration: 150 }}
 			>
 				{#each stacks as stack, i (stack.id)}
@@ -38,7 +38,7 @@
 				{/each}
 				<button
 					on:click={handleNew}
-					class="h-32 mt-1 hover:mt-0 transition-all rounded-md border-2 border-gray-200 bg-zinc-100 flex items-center justify-center"
+					class="h-32 mt-1 hover:mt-0 transition-all rounded-md border-2 border-gray-200 dark:border-neutral-700 bg-zinc-100 dark:bg-neutral-800 flex items-center justify-center"
 					><Plus /></button
 				>
 			</div>

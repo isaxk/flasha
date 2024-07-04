@@ -59,7 +59,7 @@
 					<Button style="secondary"><EllipsisVertical /></Button>
 				</DropdownMenu.Trigger>
 				<DropdownMenu.Content
-					class="bg-white rounded-sm drop-shadow text-right py-3 px-5"
+					class="bg-white dark:bg-neutral-900 rounded-sm drop-shadow-xl text-right py-3 px-5"
 					align="end"
 					sideOffset={4}
 					transition={flyAndScale}
@@ -94,7 +94,7 @@
 		{/each}
 		<button
 			on:click={() => createCard(data.id)}
-			class="py-4 drop-shadow bg-neutral-200 ml-12 rounded-md mt-4 flex items-center justify-center"
+			class="py-4 drop-shadow bg-neutral-200 dark:bg-neutral-800 ml-12 rounded-md mt-4 flex items-center justify-center"
 			><Plus class="text-gray-400" /></button
 		>
 	</div>

@@ -7,14 +7,14 @@
 
 <div class="relative w-full h-40 whole z-0">
 	<div class="absolute pointer-events-none -z-10 -top-1 left-0 h-32 w-full flex justify-center">
-		<div class="h-32 w-[90%] bg-neutral-200 rounded-[4px] transition-all drop-shadow-xl"></div>
+		<div class="h-32 w-[90%] bg-neutral-200 dark:bg-neutral-900 rounded-[4px] transition-all drop-shadow-xl"></div>
 	</div>
 	<a
 		tabindex="0"
 		href="#"
 		role="button"
 		on:dblclick={()=>goto(`/${id}/study`)}
-		class="absolute z-0 card flex flex-col hover:cursor-pointer top-1 left-0 bg-white h-32 w-full rounded-[8px] drop-shadow transition-all"
+		class="absolute z-0 card flex flex-col hover:cursor-pointer top-1 left-0 bg-white dark:bg-neutral-800 h-32 w-full rounded-[8px] drop-shadow transition-all"
 	>
 		<div class="flex-grow flex items-center justify-center">
 			<div class="font-medium px-3 text-center">

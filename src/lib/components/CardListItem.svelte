@@ -33,7 +33,7 @@
 <div class="flex items-center w-full pl-2" transition:slide={{easing:quintOut, duration: 150}}>
 	<div class="w-10">{i + 1}.</div>
 	<div
-		class="bg-white rounded-md drop-shadow flex-grow flex gap-4 items-center py-4 px-6"
+		class="bg-white dark:bg-neutral-800 rounded-md drop-shadow flex-grow flex gap-4 items-center py-4 px-6 lg:gap-10"
 	>
 	<DropdownMenu.Root closeOnItemClick={false}>
 		<DropdownMenu.Trigger>
@@ -43,7 +43,7 @@
 			></div>
 		</DropdownMenu.Trigger>
 		<DropdownMenu.Content
-			class="bg-white border-2 border-zinc-50 text-right w-max rounded-sm flex flex-col p-1 gap-4 drop-shadow-xl"
+			class="bg-white dark:bg-neutral-900 border-2 border-zinc-50 dark:border-zinc-800 text-right w-max rounded-sm flex flex-col p-1 gap-4 drop-shadow-xl"
 			side="bottom"
 			align="start"
 			sideOffset={5}
@@ -76,7 +76,7 @@
 		<div class="font-medium">
 			<input
 				type="text"
-				class="w-full p-1 font-medium"
+				class="w-full p-1 font-medium bg-transparent"
 				bind:value={front}
 				on:change={handleChange}
 			/>
@@ -84,7 +84,7 @@
 		<div class="">
 			<input
 				type="text"
-				class="w-full p-1"
+				class="w-full p-1 bg-transparent"
 				bind:value={back}
 				on:change={handleChange}
 			/>

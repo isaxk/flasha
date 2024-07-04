@@ -9,7 +9,7 @@
 </script>
 
 <div
-	class="absolute top-0 left-0 min-h-96 bg-yellow-50 w-full h-full p-4 flex items-center justify-center rounded-md drop-shadow px-10"
+	class="absolute top-0 left-0 min-h-96 bg-yellow-50 text-neutral-800 w-full h-full p-4 flex items-center justify-center rounded-md drop-shadow px-10"
 	style:background-color={color}
 	in:scale={{ duration: 300, start: 0.8, delay: 100 }}
 	out:fly={{ duration: 300, x: -50 }}
